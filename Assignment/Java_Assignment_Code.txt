@@ -1,0 +1,85 @@
+          //Wavelabs Technologies Java Assignment code
+
+import java.util.*;
+
+class Solution {
+
+    public int findMaximalNetworkRank(int n, int[][] labs) {
+
+        List<Integer>[] list = new List[n];
+        for(int i = 0; i < n; i++){
+            list[i] = new ArrayList<>();
+        }
+        int labIndex = 0;
+
+        for(int[] r : labs){
+            list[r[0]].add(labIndex);
+            list[r[1]].add(labIndex);
+            labIndex++;
+        }
+        int result = 0;
+        for(int i = 0; i < n ; i++){
+            for(int j = 0 ; j < n ; j++){
+                if(i == j) continue;
+                //initialize set
+                Set<Integer> set = new HashSet<>();
+                set.addAll(list[i]);
+                set.addAll(list[j]);
+                result = Math.max(set.size(), result);
+            }
+        }
+        return result;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        int cableNum;
+
+        //initialize Scanner input
+        Scanner input = new Scanner(System.in);
+
+        //Get user input for number of labs
+        System.out.println("Enter number of labs");
+        int n = input.nextInt();
+
+        //Get user input for number of cables
+        System.out.println("Enter number of cables");
+        cableNum = input.nextInt();
+
+        int [][] cables = new int[cableNum][2];
+        //Get user input for cable connections
+        System.out.println("Enter number of cables connections in [ai, bi] format");
+        for(int i=0;i<cableNum;i++){
+
+                cables[i][0] = input.nextInt();
+                cables[i][1] = input.nextInt();
+
+        }
+
+        //function call
+        Solution solution = new Solution();
+
+        int maxRank = solution.findMaximalNetworkRank(n, cables);
+
+        System.out.println("Maximal Network Rank: " + maxRank);
+    }
+}
+
+
+---------------------------------------------------------------
+Sample Input:
+
+Enter number of labs
+4
+Enter  number of cables
+4
+Enter number of cables connections in [ai, bi] format
+0 3
+1 2
+1 3
+0 1
+
+Output:
+Maximal Network Rank: 4
